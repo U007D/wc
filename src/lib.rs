@@ -26,11 +26,18 @@
 mod args;
 pub mod consts;
 pub mod error;
+mod word_count;
+mod word_countable;
 
 pub use args::Args;
 use error::Result;
+use std::fs::File;
+use word_count::word_count;
+use word_countable::WordCountable;
 
 #[allow(clippy::missing_const_for_fn, clippy::needless_pass_by_value)] //remove when `lib_main` impl'ed
-pub fn lib_main(_args: Args) -> Result<()> {
+pub fn lib_main(args: Args) -> Result<()> {
+    let count = word_count(File::open(args.filename)?)?;
+    println!("Word count: {}", count);
     Ok(())
 }
